@@ -5,6 +5,7 @@ import javax.swing.*;
 public class Main {
 	private static JFrame frame;
 	private static AlienPanel alienPanel;
+	private static  x;
 	public static void main(String[] args) {
 		frame = new JFrame();
 		Alien a = new Alien(10,10);

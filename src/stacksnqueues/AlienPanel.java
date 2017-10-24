@@ -17,7 +17,7 @@ public class AlienPanel extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);       
-	    g.drawRect(alien.getX(), alien.getY(), 10,10);
+		g.drawRect(alien.getX(), alien.getY(), 10,10);
 	    g.setColor(Color.RED);
 	}
 	
