@@ -12,7 +12,7 @@ public class Alien {
 	private Move currentMove = null;
 	private long lastMove; // tracks times between while(true)'s
 	private long moveStart; // tracks time between moves
-	private static final int PIXELS_PER_SEC = 10;
+	private static final int PIXELS_PER_SEC = 100;
 
 	public Alien() {
 		moveStack = new Stack<Move>();
@@ -30,7 +30,7 @@ public class Alien {
 	}
 
 	public void update() {
-		if (moveQueue.isEmpty()) {
+		if (moveQueue.isEmpty() && currentMove == null) {
 			return;
 		}
 		if (currentMove == null) {
@@ -57,7 +57,7 @@ public class Alien {
 		default:
 			currentMove = null;
 		}
-		if (currentTime - moveStart >= currentMove.secs * 1000) {
+		if (moveStart + currentMove.secs * 1000 < currentTime) {
 			moveStack.push(currentMove);
 			currentMove = null;
 		}
@@ -76,6 +76,6 @@ public class Alien {
 		if(currentMove == null) {
 			return "IDLE";
 		}
-		return String.format("Performing %s for %.2f more seconds", currentMove.toString(), (System.currentTimeMillis() - moveStart) / 1000.0);
+		return String.format("%s for %.2f more seconds", currentMove.toString(), (moveStart + 1000 * currentMove.secs - System.currentTimeMillis()) / 1000.0);
 	}
 }
