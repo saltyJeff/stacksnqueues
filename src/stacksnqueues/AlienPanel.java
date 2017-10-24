@@ -7,6 +7,10 @@ import javax.swing.JPanel;
 
 public class AlienPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Alien alien;
 	private JPanel panel;
 	
@@ -16,9 +20,10 @@ public class AlienPanel extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);       
-		g.drawRect(alien.getX(), alien.getY(), 10,10);
+		super.paintComponent(g);   
+		alien.update();
 	    g.setColor(Color.RED);
+		g.drawRect(alien.getX(), alien.getY(), 10,10);
 	}
 	
 }

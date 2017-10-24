@@ -31,13 +31,13 @@ public class Alien {
 
 	public void update() {
 		if (moveQueue.isEmpty()) {
-			continue;
+			return;
 		}
 		if (currentMove == null) {
 			lastMove = System.currentTimeMillis();
 			moveStart = System.currentTimeMillis();
 			currentMove = moveQueue.remove();
-			continue;
+			return;
 		}
 		long currentTime = System.currentTimeMillis();
 		double deltaTime = (currentTime - lastMove) / 1000.0;
@@ -70,5 +70,12 @@ public class Alien {
 
 	public int getY() {
 		return y;
+	}
+	
+	public String toString() {
+		if(currentMove == null) {
+			return "IDLE";
+		}
+		return String.format("Performing %s for %.2f more seconds", currentMove.toString(), (System.currentTimeMillis() - moveStart) / 1000.0);
 	}
 }
