@@ -1,6 +1,7 @@
 package stacksnqueues;
 
 import java.awt.Image;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -17,7 +18,8 @@ public class Alien {
 	private static final long MS_PER_FRAME = 60;
 	private Spritesheet sheet;
 	private Image[] currentAnim;
-	
+	private boolean doingUndoMove = false;
+	private boolean dirty = true;
 	public Alien() {
 		moveStack = new Stack<Move>();
 		x = 320;
@@ -32,11 +34,18 @@ public class Alien {
 
 	public void addMove(Move m) {
 		moveQueue.add(m);
+		dirty = true;
 	}
 
 	public void undoMove() {
-		if (!moveStack.isEmpty())
-			moveStack.pop();
+		if (!moveStack.isEmpty()) {
+			currentMove = moveStack.pop();
+			doingUndoMove = true;
+			lastMove = System.currentTimeMillis();
+			moveStart = System.currentTimeMillis();
+			currentAnim = sheet.getAnim(currentMove.moveName);
+			dirty = true;
+		}
 	}
 
 	public void update() {
@@ -49,6 +58,7 @@ public class Alien {
 			moveStart = System.currentTimeMillis();
 			currentMove = moveQueue.remove();
 			currentAnim = sheet.getAnim(currentMove.moveName);
+			dirty = true;
 			return;
 		}
 		long currentTime = System.currentTimeMillis();
@@ -70,7 +80,13 @@ public class Alien {
 			currentMove = null;
 		}
 		if (moveStart + currentMove.secs * 1000 < currentTime) {
-			moveStack.push(currentMove);
+			if(!doingUndoMove) {
+				moveStack.push(currentMove);
+				dirty = true;
+			}
+			else {
+				doingUndoMove = false;
+			}
 			currentMove = null;
 		}
 		lastMove = currentTime;
@@ -90,5 +106,23 @@ public class Alien {
 			return "IDLE";
 		}
 		return String.format("%s for %.2f more seconds", currentMove.toString(), (moveStart + 1000 * currentMove.secs - System.currentTimeMillis()) / 1000.0);
+	}
+	public String getStackAndQueue() {
+		if(!dirty) {
+			return null;
+		}
+		dirty = false;
+		StringBuilder str = new StringBuilder();
+		str.append("Move Queue:\n");
+		for(Move m : moveQueue) {
+			str.append(m.toString());
+			str.append('\n');
+		}
+		str.append("Undo Stack:\n");
+		for(Move m : moveStack) {
+			str.append(m.toString());
+			str.append('\n');
+		}
+		return str.toString();
 	}
 }

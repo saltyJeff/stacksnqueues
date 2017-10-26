@@ -25,6 +25,10 @@ public class AlienPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);   
 		alien.update();
+		String stackNQueue = alien.getStackAndQueue();
+		if(stackNQueue != null) {
+			Main.c.updateLabel(stackNQueue);
+		}
 	    g.setColor(Color.RED);
 	    g.drawString(alien.toString(), alien.getX() - 10, alien.getY() - 10);
 		g.drawImage(alien.getFrame(), alien.getX(), alien.getY(), this);

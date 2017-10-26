@@ -32,7 +32,6 @@ public class Spritesheet {
 	public void prepAnim(String name, int xStart, int yStart, int num) {
 		Image[] frames = new Image[num];
 		for(int i = 0; i < frames.length; i++) {
-			System.out.println(calcXStart(xStart, i));
 			frames[i] = sheet.getSubimage(
 					calcXStart(xStart, i),
 					calcYStart(yStart),

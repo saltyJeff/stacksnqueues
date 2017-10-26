@@ -5,14 +5,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main {
+	public static Alien alien;
+	public static ControlPanel c;
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		//add panels
-		Alien alien = new Alien();
+		alien = new Alien();
 		AlienPanel alienPanel = new AlienPanel(alien);
 		frame.add(alienPanel);
-		frame.add(new ControlPanel());
+		c = new ControlPanel();
+		frame.add(c);
 		//format frame
 		frame.setVisible(true);
 		frame.setTitle("Alien Thing");
