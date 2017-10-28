@@ -29,7 +29,7 @@ public class ControlPanel extends JPanel {
 				Main.alien.addMove(new Move(getMoveName(), getTime()));
 			}
 		});
-		undoButton = new JButton("Undo");
+		undoButton = new JButton("Redo");
 		undoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
